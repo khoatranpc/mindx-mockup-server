@@ -10,6 +10,10 @@ export async function GET(request: Request) {
         await middlewareApiKey(apiKey as string);
         const resources = await ResourceModel.findOne({
             apiKeyId: apiKey
+        }, {
+            resources: {
+                data: 0
+            }
         })
         return new Response(JSON.stringify({
             message: `Successfully`,
