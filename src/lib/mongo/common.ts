@@ -1,5 +1,6 @@
 const DBCollections = {
-    apiKey: 'apikeys'
+    apiKeys: 'apikeys',
+    resources: 'resources'
 }
 
 
