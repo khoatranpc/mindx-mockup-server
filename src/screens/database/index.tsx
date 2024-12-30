@@ -1,7 +1,7 @@
 'use client';
 import React, { useContext } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Input, Tooltip } from 'antd';
+import { CaretRightOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Input, Tooltip } from 'antd';
 import { Store } from '@/src/store';
 import { createQuery } from '@/src/utils';
 import { Obj } from '@/src/global/type';
@@ -31,7 +31,21 @@ const DatabaseScreen = () => {
             <div className='listResource mt-[2.4rem]'>
                 <p>Danh sách Resource</p>
                 {getListResource.map((item: Obj) => {
-                    return <Button key={item._id as string}>{item.name}</Button>
+                    return <div
+                        className="w-[12rem] flex justify-between items-center cursor-pointer p-4 rounded-lg border border-gray-300 shadow-md bg-white hover:shadow-lg transition-shadow duration-300"
+                        key={item._id as string}
+                    >
+                        <p className="text-sm font-medium text-gray-700">{item.name}</p>
+                        <div className='flex gap-[0.8rem]'>
+                             <Tooltip title={'Cập nhật resource'} color='red'>
+                                <Button icon={<EditOutlined />} size='small'></Button>
+                            </Tooltip>
+                            <Tooltip title={'Mở data'} color='red'>
+                                <Button icon={<CaretRightOutlined />} size='small'></Button>
+                            </Tooltip>
+                        </div>
+                    </div>
+
                 })}
             </div>
         </div>
