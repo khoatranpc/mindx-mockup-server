@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     } catch (error: any) {
         console.log("🚀 ~ POST ~ error:", error.message);
         return new Response(JSON.stringify({
-            message: `Something errors! ${error.message}`,
+            message: `Something went wrong! ${error.message}`,
             data: null,
         }), { status: 500 });
     }

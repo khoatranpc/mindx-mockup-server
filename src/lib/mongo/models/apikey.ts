@@ -11,6 +11,6 @@ const schema = new mongoose.Schema({
 });
 
 
-const ApiKeyModel = mongoose.model(DBCollections.apiKeys, schema);
+const ApiKeyModel = mongoose.models[DBCollections.apiKeys] || mongoose.model(DBCollections.apiKeys, schema);
 
 export default ApiKeyModel;
