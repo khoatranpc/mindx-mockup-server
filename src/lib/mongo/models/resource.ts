@@ -4,8 +4,6 @@ import DBCollections from "../common";
 const resourceSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
     },
     data: [Object]
 }, {
