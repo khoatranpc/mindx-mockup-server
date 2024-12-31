@@ -11,10 +11,11 @@ import { apiKey } from '@/src/global/init';
 
 const DatabaseScreen = () => {
     const { resourcesApiKey } = useContext(Store);
-    console.log("🚀 ~ DatabaseScreen ~ resourcesApiKey:", resourcesApiKey)
+    const [apiKeyInput, setApiKeyInput] = useState(localStorage.getItem('apiKey') ?? '');
     const [loadingCreateNewApiKey, setLoadingCreateNewApiKey] = useState(false);
     const handleQuerySearch = (value: string) => {
         apiKey.value = value;
+        localStorage.setItem('apiKey', value);
         if (value) {
             createQuery(`/api/resources?apiKey=${value}`, 'get', undefined, resourcesApiKey.set, (data, error) => {
                 if (error) {
@@ -29,7 +30,7 @@ const DatabaseScreen = () => {
         try {
             setLoadingCreateNewApiKey(true);
             const data = await axios.post(`/api/sign-up-key`);
-            console.log(data.data.data);
+            setApiKeyInput(data.data.data as string);
             setLoadingCreateNewApiKey(false);
             toast(`Tạo Api key thành công! ${data.data.message}`, {
                 type: 'success'
@@ -46,6 +47,9 @@ const DatabaseScreen = () => {
             <div className='top-function'>
                 <Form
                     layout='vertical'
+                    initialValues={{
+                        apiKey: apiKeyInput
+                    }}
                 >
                     <Form.Item
                         required
@@ -62,6 +66,10 @@ const DatabaseScreen = () => {
                                     disabled={resourcesApiKey.value.isLoading}
                                     loading={resourcesApiKey.value.isLoading}
                                     name='apiKey'
+                                    value={apiKeyInput}
+                                    onChange={(e) => {
+                                        setApiKeyInput(e.target.value as string);
+                                    }}
                                     onSearch={handleQuerySearch}
                                     placeholder='Nhập api key'
                                     className='w-[30rem!important]'
