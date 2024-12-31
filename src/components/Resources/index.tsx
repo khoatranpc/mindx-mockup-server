@@ -48,7 +48,7 @@ const Resources = () => {
                 </div>
                 <div className='listData relative flex-1'>
                     {crrNameResource &&
-                        <div className='absolute w-full bg-white z-[99999] top-[-1rem] text-right'>
+                        <div className='absolute w-full bg-white z-[500] top-[-1rem] text-right'>
                             <span><b>{resourceDatas.value.data?.data?.length}</b> <small>bản ghi dữ liệu</small></span>
                             <Button onClick={() => {
                                 (modalCreateDataResource.current as unknown as Obj).handleOpen(true);
