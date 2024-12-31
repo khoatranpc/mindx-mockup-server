@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
@@ -11,7 +11,7 @@ import { apiKey } from '@/src/global/init';
 
 const DatabaseScreen = () => {
     const { resourcesApiKey } = useContext(Store);
-    const [apiKeyInput, setApiKeyInput] = useState(localStorage.getItem('apiKey') ?? '');
+    const [apiKeyInput, setApiKeyInput] = useState('');
     const [loadingCreateNewApiKey, setLoadingCreateNewApiKey] = useState(false);
     const handleQuerySearch = (value: string) => {
         apiKey.value = value;
@@ -41,7 +41,10 @@ const DatabaseScreen = () => {
                 type: 'error'
             });
         }
-    }
+    };
+    useEffect(() => {
+        setApiKeyInput(localStorage?.getItem('apiKey') ?? '');
+    }, []);
     return (
         <div className='w-[90vw] m-auto p-[2.4rem]'>
             <div className='top-function'>
