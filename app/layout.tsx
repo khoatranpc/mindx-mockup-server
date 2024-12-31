@@ -1,5 +1,6 @@
 'use client';
 import { Geist, Geist_Mono } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import '@ant-design/v5-patch-for-react-19';
 import "./globals.css";
@@ -24,7 +25,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AntdRegistry>{children}</AntdRegistry>
+        <ToastContainer />
+        <AntdRegistry>
+          {children}
+        </AntdRegistry>
       </body>
     </html>
   );

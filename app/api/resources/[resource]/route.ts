@@ -66,3 +66,87 @@ export async function POST(request: Request, { params }: { params: Promise<Obj> 
         }), { status: 500 });
     }
 }
+
+export async function PUT(request: Request, { params }: { params: Promise<Obj> }) {
+    try {
+        await connectToDatabase();
+
+        const { searchParams } = new URL(request.url);
+        const apiKey = searchParams.get('apiKey');
+        await middlewareApiKey(apiKey as string);
+
+        const body = await request.json();
+        const { resource } = await params;
+        const { name } = body;
+
+        if (!name) {
+            throw new Error('Missing required field: name');
+        }
+
+        const userResource = await ResourceModel.findOne({ apiKeyId: apiKey });
+        if (!userResource) throw new Error('Not found resource for this API key!');
+
+
+        const crrResource = userResource.resources.find((rc: Obj) => rc.name === resource);
+        if (!crrResource) throw new Error('Not found resource with the specified name!');
+
+        const isDuplicateName = userResource.resources.some(
+            (resource: Obj) => resource.name === name && resource !== crrResource
+        );
+        if (isDuplicateName) {
+            throw new Error(`Resource with name "${name}" already exists`);
+        }
+
+        crrResource.name = name;
+
+        await userResource.save();
+
+        return new Response(JSON.stringify({
+            message: 'Resource name updated successfully!',
+            data: crrResource,
+        }), { status: 200 });
+    } catch (error: any) {
+        console.log("🚀 ~ PUT ~ error:", error.message);
+        return new Response(JSON.stringify({
+            message: `Something went wrong! ${error.message}`,
+            data: null,
+        }), { status: 500 });
+    }
+}
+
+export async function DELETE(request: Request, { params }: { params: Promise<Obj> }) {
+    try {
+        await connectToDatabase();
+
+        const { searchParams } = new URL(request.url);
+        const apiKey = searchParams.get('apiKey');
+        await middlewareApiKey(apiKey as string);
+
+        const { resource } = await params;
+        if (!resource) {
+            throw new Error('Missing required field: resource');
+        }
+
+        const userResource = await ResourceModel.findOne({ apiKeyId: apiKey });
+        if (!userResource) throw new Error('Not found resource for this API key!');
+
+        const resourceIndex = userResource.resources.findIndex((rc: Obj) => rc.name === resource);
+        if (resourceIndex === -1) {
+            throw new Error('Not found resource with the specified name!');
+        }
+
+        userResource.resources.splice(resourceIndex, 1);
+
+        await userResource.save();
+
+        return new Response(JSON.stringify({
+            message: 'Resource deleted successfully!',
+        }), { status: 200 });
+    } catch (error: any) {
+        console.log("🚀 ~ DELETE ~ error:", error.message);
+        return new Response(JSON.stringify({
+            message: `Something went wrong! ${error.message}`,
+            data: null,
+        }), { status: 500 });
+    }
+}

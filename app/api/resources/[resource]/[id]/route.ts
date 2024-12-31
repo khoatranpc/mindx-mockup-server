@@ -32,8 +32,8 @@ export async function PUT(request: Request, { params }: { params: Promise<Obj> }
 
         // Cập nhật dữ liệu tại vị trí đã tìm thấy
         userResource.resources[crrResourceIndex].data[crrDataIndex] = {
-            ...userResource.resources[crrResourceIndex].data[crrDataIndex],
             ...updatedData, // Cập nhật các trường mới
+            _id: userResource.resources[crrResourceIndex].data[crrDataIndex]._id,
         };
 
         // Lưu lại thay đổi vào database

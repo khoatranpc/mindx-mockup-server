@@ -4,7 +4,9 @@ const result = {
     message: '',
     queried: false
 };
-
+export const apiKey = {
+    value: ''
+};
 export {
     result
 }
