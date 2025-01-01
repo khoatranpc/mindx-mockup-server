@@ -1,13 +1,11 @@
 'use client';
 import { Button } from "antd";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function MainScreen() {
     return (
         <div className="p-[2.4rem]">
             <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                <Image alt="logo" src="/logo.png" width={200} height={100} />
 
                 <h1 className="text-4xl font-bold text-gray-800">
                     Chào mừng đến với MindX Mockup Server

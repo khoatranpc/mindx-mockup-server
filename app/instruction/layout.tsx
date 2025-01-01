@@ -7,10 +7,7 @@ interface Props {
 
 const InstructionLayout = (props: Props) => {
     return (
-        <div className="p-[2.4rem]">
-            <div className='flex justify-center'>
-                <Image alt="logo" src="/logo.png" width={200} height={100} />
-            </div>
+        <div>
             {props.children}
         </div>
     )
